@@ -5,9 +5,12 @@
 
 create table task (
   id                        bigint not null,
-  name                      varchar(255),
-  h_number                  varchar(255),
-  m_number                  varchar(255),
+  day                       varchar(255),
+  hours                     varchar(255),
+  lection                   varchar(255),
+  teacher                   varchar(255),
+  room                      varchar(255),
+  group_name                varchar(255),
   constraint pk_task primary key (id))
 ;
 

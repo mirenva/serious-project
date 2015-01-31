@@ -20,7 +20,6 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellRangeAddressBase;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.*;
 
 
 public class Application extends Controller {
@@ -37,20 +36,6 @@ public class Application extends Controller {
     );
   }
 
-  public static Result findTasks() {
-    DynamicForm requestData = Form.form().bindFromRequest();
-    List<Task> taskList = Task.find.where()
-        .ilike("groupNumber", "%" + requestData.get("groupNumber") + "%")
-        .ilike("day", "%" + requestData.get("day") + "%")
-        .ilike("hours", "%" + requestData.get("hours") + "%")
-        .ilike("lection", "%" + requestData.get("lection") + "%")
-        .ilike("teacher", "%" + requestData.get("teacher") + "%")
-        .ilike("room", "%" + requestData.get("room") + "%")
-    .findList();
-    return ok(
-            views.html.index.render(taskList.all(),requestData)
-    );
-  }
 
   // разбираем файл Excel в БД
   public static void main(String[] args) throws Exception {
@@ -63,7 +48,7 @@ public class Application extends Controller {
     org.apache.poi.hssf.usermodel.HSSFRow row;
     org.apache.poi.hssf.usermodel.HSSFCell cell;
 
-    String[][] data = new String[240][60];
+    String[][] dataBase = new String[240][60];
     // разбираем файл Excel в массив
     for (int i = 0; i < 240; i++) {
       row = sheet1.getRow(i);
@@ -73,20 +58,22 @@ public class Application extends Controller {
           if (cell != null) {
             switch (cell.getCellType()) {
               case HSSFCell.CELL_TYPE_STRING:
-                data[i][j] = cell.getStringCellValue();
-                break;
+                dataBase[i][j] = cell.getStringCellValue();
+				break;
             }
           }
         }
       }
     }
     // массив уже парсим в БД
+	
+	System.out.println(dataBase[1][3]);
 
     // ищем, где начинается расписание
     int z = 1;
     int x = 1;
     for (int i=0; i<100; i++) {
-      if (data[x][1] = "Дни") {
+      if (dataBase[x][1] = "Дни") {
         z = x;
         break;
       }
@@ -95,38 +82,38 @@ public class Application extends Controller {
     int y = 3;
 
     while (true) {
-      String gN = data[x][y]; //
+      String gN = dataBase[x][y]; //
 
       while (true) {
         if (x > 200) break;
 
         x = x + 1;
-        if (data[x][1] != null) {
-          String d = data[x][1];
+        if (dataBase[x][1] != null) {
+          String d = dataBase[x][1];
           while (true) {
-            if (data[x][2] != null) {
+            if (dataBase[x][2] != null) {
               Task task = new Task();
               task.groupNumber = gN;
               task.day = d;
-              task.hours = data[x][2];
-              task.lection = data[x][y];
-              task.teacher = data[x][y + 1];
-              task.room = data[x][y + 2];
+              task.hours = dataBase[x][2];
+              task.lection = dataBase[x][y];
+              task.teacher = dataBase[x][y + 1];
+              task.room = dataBase[x][y + 2];
               task.save();
             }
             else {
-              if (data[x][y] != null) {
+              if (dataBase[x][y] != null) {
                 Task task = new Task();
                 task.groupNumber = gN;
                 task.day = d;
-                task.hours = data[x][2];
-                task.lection = data[x][y];
-                task.teacher = data[x][y + 1];
-                task.room = data[x][y + 2];
+                task.hours = dataBase[x][2];
+                task.lection = dataBase[x][y];
+                task.teacher = dataBase[x][y + 1];
+                task.room = dataBase[x][y + 2];
                 task.save();
               }
             }
-            if (data[x + 1][1] != null) {
+            if (dataBase[x + 1][1] != null) {
               break;
             } else {
               x = x + 1;
@@ -141,11 +128,27 @@ public class Application extends Controller {
       }
       y = y + 3;
       x = z;
-      if (data[x][y] = "Часы") {
+      if (dataBase[x][y] = "Часы") {
         break;
       }
     }
   }
 
-
+  
+  public static Result findTasks() {
+    DynamicForm requestData = Form.form().bindFromRequest();
+    List<Task> taskList = Task.find.where()
+        .ilike("groupNumber", "%" + requestData.get("groupNumber") + "%")
+        .ilike("day", "%" + requestData.get("day") + "%")
+        .ilike("hours", "%" + requestData.get("hours") + "%")
+        .ilike("lection", "%" + requestData.get("lection") + "%")
+        .ilike("teacher", "%" + requestData.get("teacher") + "%")
+        .ilike("room", "%" + requestData.get("room") + "%")
+    .findList();
+    return ok(
+            views.html.index.render(taskList.all(),requestData)
+    );
+  }
+  
+  
   }
