@@ -1,0 +1,5 @@
+@(value: String, args: (Symbol,Any)* )
+
+<div>
+    <p><button type="submit" class="btn @args.toMap.getOrElse('class, "btn-default")">@value</button></p>
+</div>

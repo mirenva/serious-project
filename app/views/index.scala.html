@@ -1,46 +1,45 @@
 @(tasks: List[Task], taskForm: Form[Task])
 
 @import helper._
+@import helpers._
 
 <HTML>
 
 @main("Contacts") {
     
-    <h1>@tasks.size() contact(s)</h1>
-    
-	<table border=1px>
+	<table class="table table-striped" width="700px">
 		<tr>
-			<td>Name</td>
-			<td>Mobile number</td>
-			<td>Home number</td>
-			<td>Delete</td>
+			<td width="100px">Номер группы</td>
+			<td width="100px">День недели</td>
+			<td width="100px">Часы</td>
+			<td width="100px">Предмет</td>
+			<td width="100px">Преподаватель</td>
+			<td width="100px">Аудитория</td>
 		</tr>
 		@for(task <- tasks) {
 			<tr>
-					<td>@task.name</td>
-					<td>@task.m_number</td>
-					<td>@task.h_number</td>
-					<td>@form(routes.Application.deleteTask(task.id)) {
-							<input type="submit" value="Delete">
-						}
-					</td>
-					<td>@form(routes.Application.editTaskForm(task.id)) {
-							<input type="submit" value="Edit">
-						}
-					</td>
-
+				<td>@task.groupNumber</td>
+				<td>@task.day</td>
+				<td>@task.hours</td>
+				<td>@task.lection</td>
+				<td>@task.teacher</td>
+				<td>@task.room</td>
 			</tr>
 		}
 	</table>
+
 	
-    <h2>Add a new contact:</h2>
+    <h2>Поиск:</h2>
     
-    @form(routes.Application.newTask()) {
-        <input type=text name="name" placeholder="Name"/>
-        <input type=tel name="m_number" placeholder="Mobile phone"/>
-		<input type=tel name="h_number" placeholder="Home phone"/>
-        
-        <input type="submit" value="Create">
+    @form(routes.Application.findTasks()) {
+		@helpInput(taskForm("groupNumber"), "Номер группы", 'type->"text")
+		@helpInput(taskForm("day"), "День недели", 'type->"text")
+		@helpInput(taskForm("hours"), "Время занятия", 'type->"text")
+		@helpInput(taskForm("lection"), "Название предмета", 'type->"text")
+		@helpInput(taskForm("teacher"), "Фамилия преподавателя", 'type->"text")
+		@helpInput(taskForm("room"), "Номер аудитории", 'type->"text")
+
+        @helpBtn("Найти")
         
     }
     

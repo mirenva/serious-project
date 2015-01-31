@@ -1,0 +1,5 @@
+@(field: Field, label: String, args: (Symbol,Any)* )
+
+<div class="col-xs-2@if(field.hasErrors) { has-error}">
+    <input class="form-control" id="@field.id" name="@field.name" placeholder="@label" value="@field.value.getOrElse("")" @toHtmlArgs(args.toMap) />
+</div>
