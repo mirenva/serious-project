@@ -67,7 +67,7 @@ public class Application extends Controller {
     }
     // массив уже парсим в БД
 	
-	System.out.println(dataBase[1][3]);
+	System.out.println(dataBase[5][3]); // что-то не работает :(
 
     // ищем, где начинается расписание
     int z = 1;
