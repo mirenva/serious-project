@@ -29,7 +29,8 @@ public class Application extends Controller {
   public static Result index() {
 	List<Task> taskList = new ArrayList<Task>();
     return ok(
-      views.html.index.render(taskList);
+      views.html.index.render(taskList)
+	);
   }
 
 
@@ -144,7 +145,7 @@ public class Application extends Controller {
         .ilike("room", "%" + requestData.get("room") + "%")
     .findList();
     return ok(
-            views.html.index.render(taskList)
+        views.html.index.render(taskList)
     );
   }
   
