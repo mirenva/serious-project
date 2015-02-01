@@ -50,34 +50,49 @@ public class Application extends Controller {
     String[][] dataBase = new String[240][60];
     // разбираем файл Excel в массив
     for(int i = 0; i < 240; i++) {
-      row = sheet1.getRow(i);
-      if(row != null) {
-        for(int j = 0; j < 60; j++) {
-          cell = row.getCell(j);
-          if(cell != null) {
-            switch (cell.getCellType()) {
-              case HSSFCell.CELL_TYPE_STRING:
-                dataBase[i][j] = cell.getStringCellValue();
-				break;
+      row = sheet1.getRow(i+1);
+      for(int j = 0; j < 60; j++) {
+        cell = row.getCell(j);
+        if(cell != null) {
+          switch (cell.getCellType()) {
+            case HSSFCell.CELL_TYPE_STRING:
+              dataBase[i][j] = cell.getStringCellValue();
+			break;
             }
-          }
         }
       }
     }
     // массив уже парсим в БД
 	
+	/*
+	InputStream inp = new FileInputStream("workbook.xls");
+    Workbook wb = WorkbookFactory.create(inp);
+    Sheet sheet = wb.getSheetAt(0);
+    Row row = sheet.getRow(2);
+    Cell cell = row.getCell(3);
+    if (cell == null)
+    cell = row.createCell(3);
+    cell.setCellType(Cell.CELL_TYPE_STRING);
+    cell.setCellValue("a test");
+     
+    // Write the output to a file
+    FileOutputStream fileOut = new FileOutputStream("workbook.xls");
+    wb.write(fileOut);
+    fileOut.close();
+	*/
 
     // ищем, где начинается расписание
     int z = 1;
     int x = 1;
     for(int i=0; i<100; i++) {
-      if("Дни".equals(dataBase[x][1])) {
-        z = x;
+      if("Дни".equals(dataBase[i][0])) {
+        z = i;
+		x = z;
         break;
       }
     } // z - строка, где начинается "чистое" расписание
 
-    int y = 3;
+    int y = 2;
 
     while(true) {
       String gN = dataBase[x][y]; //
@@ -88,14 +103,14 @@ public class Application extends Controller {
 		}
 
         x = x + 1;
-        if(dataBase[x][1] != null) {
-          String d = dataBase[x][1];
+        if(dataBase[x][0] != null) {
+          String d = dataBase[x][0];
           while(true) {
-            if(dataBase[x][2] != null) {
+            if(dataBase[x][1] != null) {
               Task task = new Task();
               task.groupNumber = gN;
               task.day = d;
-              task.hours = dataBase[x][2];
+              task.hours = dataBase[x][1];
               task.lection = dataBase[x][y];
               task.teacher = dataBase[x][y + 1];
               task.room = dataBase[x][y + 2];
@@ -106,7 +121,7 @@ public class Application extends Controller {
                 Task task = new Task();
                 task.groupNumber = gN;
                 task.day = d;
-                task.hours = dataBase[x][2];
+                task.hours = dataBase[x][1];
                 task.lection = dataBase[x][y];
                 task.teacher = dataBase[x][y + 1];
                 task.room = dataBase[x][y + 2];
