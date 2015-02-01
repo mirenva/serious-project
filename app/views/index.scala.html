@@ -6,27 +6,28 @@
 <HTML>
 
 @main("Contacts") {
-    
-	<table class="table table-striped" width="700px">
-		<tr>
-			<td width="100px">Номер группы</td>
-			<td width="100px">День недели</td>
-			<td width="100px">Часы</td>
-			<td width="100px">Предмет</td>
-			<td width="100px">Преподаватель</td>
-			<td width="100px">Аудитория</td>
-		</tr>
-		@for(task <- tasks) {
+	@if(tasks.size()>0) {
+		<table class="table table-striped" width="700px">
 			<tr>
-				<td>@task.groupNumber</td>
-				<td>@task.day</td>
-				<td>@task.hours</td>
-				<td>@task.lection</td>
-				<td>@task.teacher</td>
-				<td>@task.room</td>
+				<td width="100px">Номер группы</td>
+				<td width="100px">День недели</td>
+				<td width="100px">Часы</td>
+				<td width="100px">Предмет</td>
+				<td width="100px">Преподаватель</td>
+				<td width="100px">Аудитория</td>
 			</tr>
-		}
-	</table>
+			@for(task <- tasks) {
+				<tr>
+					<td>@task.groupNumber</td>
+					<td>@task.day</td>
+					<td>@task.hours</td>
+					<td>@task.lection</td>
+					<td>@task.teacher</td>
+					<td>@task.room</td>
+				</tr>
+			}
+		</table>
+	}
 
 	
     <h2>Поиск:</h2>
