@@ -3,6 +3,7 @@ GET     /                       controllers.Application.index()
 GET     /assets/*file           controllers.Assets.at(path="/public", file)
 
 # Tasks          
+GET 	/parsing 				controllers.Application.parsing()
 GET     /findTasks              controllers.Application.findTasks()
 POST    /findTasks              controllers.Application.findTasks()
 

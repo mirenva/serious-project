@@ -37,7 +37,7 @@ public class Application extends Controller {
   }
 
   // разбираем файл Excel в БД
-  public static void main(String[] args) throws Exception {
+  public static Result parsing() throws Exception {
 
     org.apache.poi.poifs.filesystem.POIFSFileSystem fs =
             new org.apache.poi.poifs.filesystem.POIFSFileSystem(new FileInputStream("schedule.xls"));
@@ -49,12 +49,12 @@ public class Application extends Controller {
 
     String[][] dataBase = new String[240][60];
     // разбираем файл Excel в массив
-    for (int i = 0; i < 240; i++) {
+    for(int i = 0; i < 240; i++) {
       row = sheet1.getRow(i);
-      if (row != null) {
-        for (int j = 0; j < 60; j++) {
+      if(row != null) {
+        for(int j = 0; j < 60; j++) {
           cell = row.getCell(j);
-          if (cell != null) {
+          if(cell != null) {
             switch (cell.getCellType()) {
               case HSSFCell.CELL_TYPE_STRING:
                 dataBase[i][j] = cell.getStringCellValue();
@@ -66,26 +66,12 @@ public class Application extends Controller {
     }
     // массив уже парсим в БД
 	
-	
-		  //ЗАПИСЬ В TXT
-			try {
-			PrintWriter out = new PrintWriter(new File("111111111.txt").getAbsoluteFile());
-			try {
-			out.print("000000000000000");
-			} finally {
-			out.close();
-			}
-			} catch(IOException e) {
-			throw new RuntimeException(e);
-			}
-			
-	
 
     // ищем, где начинается расписание
     int z = 1;
     int x = 1;
-    for (int i=0; i<100; i++) {
-      if ("Дни".equals(dataBase[x][1])) {
+    for(int i=0; i<100; i++) {
+      if("Дни".equals(dataBase[x][1])) {
         z = x;
         break;
       }
@@ -93,19 +79,19 @@ public class Application extends Controller {
 
     int y = 3;
 
-    while (true) {
+    while(true) {
       String gN = dataBase[x][y]; //
 
-      while (true) {
-        if (x > 200) {
+      while(true) {
+        if(x > 200) {
 			break;
 		}
 
         x = x + 1;
-        if (dataBase[x][1] != null) {
+        if(dataBase[x][1] != null) {
           String d = dataBase[x][1];
-          while (true) {
-            if (dataBase[x][2] != null) {
+          while(true) {
+            if(dataBase[x][2] != null) {
               Task task = new Task();
               task.groupNumber = gN;
               task.day = d;
@@ -116,7 +102,7 @@ public class Application extends Controller {
               task.save();
             }
             else {
-              if (dataBase[x][y] != null) {
+              if(dataBase[x][y] != null) {
                 Task task = new Task();
                 task.groupNumber = gN;
                 task.day = d;
@@ -127,7 +113,7 @@ public class Application extends Controller {
                 task.save();
               }
             }
-            if (dataBase[x + 1][1] != null) {
+            if(dataBase[x + 1][1] != null) {
               break;
             } else {
               x = x + 1;
@@ -142,10 +128,12 @@ public class Application extends Controller {
       }
       y = y + 3;
       x = z;
-      if ("Часы".equals(dataBase[x][y])) {
+      if("Часы".equals(dataBase[x][y])) {
         break;
       }
     }
+	
+	return redirect(controllers.routes.Application.index());
   }
 
   
