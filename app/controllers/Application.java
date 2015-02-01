@@ -64,26 +64,13 @@ public class Application extends Controller {
     }
     // массив уже парсим в БД
 	
-	/*
-	InputStream inp = new FileInputStream("workbook.xls");
-    Workbook wb = WorkbookFactory.create(inp);
-    Sheet sheet = wb.getSheetAt(0);
-    Row row = sheet.getRow(2);
-    Cell cell = row.getCell(3);
-    if (cell == null)
-    cell = row.createCell(3);
-    cell.setCellType(Cell.CELL_TYPE_STRING);
-    cell.setCellValue("a test");
-     
-    // Write the output to a file
-    FileOutputStream fileOut = new FileOutputStream("workbook.xls");
-    wb.write(fileOut);
-    fileOut.close();
-	*/
 
     // ищем, где начинается расписание
     int z = 1;
     int x = 1;
+	int y = 2;
+	String d = "";
+	
     for(int i=0; i<100; i++) {
       if("Дни".equals(dataBase[i][0])) {
         z = i;
@@ -92,19 +79,20 @@ public class Application extends Controller {
       }
     } // z - строка, где начинается "чистое" расписание
 
-    int y = 2;
 
     while(true) {
       String gN = dataBase[x][y]; //
 
       while(true) {
+		x = x + 1;
         if(x > 200) {
 			break;
 		}
 
-        x = x + 1;
+		
         if(dataBase[x][0] != null) {
-          String d = dataBase[x][0];
+          d = dataBase[x][0];
+		} 
           while(true) {
             if(dataBase[x][1] != null) {
               Task task = new Task();
@@ -130,16 +118,13 @@ public class Application extends Controller {
             }
             if(dataBase[x + 1][1] != null) {
               break;
-            } else {
+            }  else {
               x = x + 1;
               if (x > 200) {
                 break;
-              }
+              } 
             }
           }
-
-
-        }
       }
       y = y + 3;
       x = z;
