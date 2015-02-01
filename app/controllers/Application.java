@@ -73,7 +73,7 @@ public class Application extends Controller {
     int z = 1;
     int x = 1;
     for (int i=0; i<100; i++) {
-      if (dataBase[x][1] == "Дни") {
+      if (dataBase[x][1].equals("Дни")) {
         z = x;
         break;
       }
@@ -128,7 +128,7 @@ public class Application extends Controller {
       }
       y = y + 3;
       x = z;
-      if (dataBase[x][y] == "Часы") {
+      if (dataBase[x][y].equals("Часы")) {
         break;
       }
     }
