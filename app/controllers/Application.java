@@ -146,7 +146,7 @@ public class Application extends Controller {
         .ilike("room", "%" + requestData.get("room") + "%")
     .findList();
     return ok(
-            views.html.index.render(taskList.all(),requestData)
+            views.html.index.render(taskList,requestData)
     );
   }
   
