@@ -1,12 +1,10 @@
 @(tasks: List[Task])
 
 @import helper._
-@import helpers._
 
 <HTML>
 
 @main("Schedule") {
-	@if(tasks.size()>0){
 		<table class="table table-striped" width="700px">
 			<tr>
 				<td width="100px">Номер группы</td>
@@ -27,12 +25,11 @@
 				</tr>
 			}
 		</table>
-	}
 
 	
     <h2>Поиск:</h2>
     
-    <form action = routes.Application.findTasks()>
+    <form action="@routes.Application.findTasks()" method="POST">
         <div class="col-xs-2">
 			<input type=text class="form-control" name="groupNumber" placeholder="Номер группы"/>
 		</div>

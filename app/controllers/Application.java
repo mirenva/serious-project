@@ -27,13 +27,9 @@ public class Application extends Controller {
   static Form<Task> taskForm = form(Task.class);
   
   public static Result index() {
-    return redirect(routes.Application.tasks());
-  }
-  
-  public static Result tasks() {
+	List<Task> taskList = new ArrayList<Task>();
     return ok(
-      views.html.index.render(Task.all())
-    );
+      views.html.index.render(taskList);
   }
 
 
@@ -73,7 +69,7 @@ public class Application extends Controller {
     int z = 1;
     int x = 1;
     for (int i=0; i<100; i++) {
-      if (dataBase[x][1].equals("Дни")) {
+      if ("Дни".equals(dataBase[x][1])) {
         z = x;
         break;
       }
@@ -85,7 +81,9 @@ public class Application extends Controller {
       String gN = dataBase[x][y]; //
 
       while (true) {
-        if (x > 200) break;
+        if (x > 200) {
+			break;
+		}
 
         x = x + 1;
         if (dataBase[x][1] != null) {
@@ -128,7 +126,7 @@ public class Application extends Controller {
       }
       y = y + 3;
       x = z;
-      if (dataBase[x][y].equals("Часы")) {
+      if ("Часы".equals(dataBase[x][y])) {
         break;
       }
     }
