@@ -6,6 +6,8 @@ import play.mvc.*;
 import views.html.*;
 import play.data.*;
 import java.io.FileInputStream;
+import java.io.*;
+import java.io.Writer;
 import static play.data.Form.form;
 import java.util.*;
 import play.db.ebean.*;
@@ -22,6 +24,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
 
+
 public class Application extends Controller {
 
   static Form<Task> taskForm = form(Task.class);
@@ -32,7 +35,6 @@ public class Application extends Controller {
       views.html.index.render(taskList)
 	);
   }
-
 
   // разбираем файл Excel в БД
   public static void main(String[] args) throws Exception {
@@ -64,7 +66,20 @@ public class Application extends Controller {
     }
     // массив уже парсим в БД
 	
-	System.out.println(dataBase[5][3]); // что-то не работает :(
+	
+		  //ЗАПИСЬ В TXT
+			try {
+			PrintWriter out = new PrintWriter(new File("111111111.txt").getAbsoluteFile());
+			try {
+			out.print("000000000000000");
+			} finally {
+			out.close();
+			}
+			} catch(IOException e) {
+			throw new RuntimeException(e);
+			}
+			
+	
 
     // ищем, где начинается расписание
     int z = 1;
