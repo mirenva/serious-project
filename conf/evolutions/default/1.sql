@@ -4,17 +4,13 @@
 # --- !Ups
 
 create table task (
-  id                        bigint not null,
+  group_number              varchar(255),
   day                       varchar(255),
   hours                     varchar(255),
   lection                   varchar(255),
   teacher                   varchar(255),
-  room                      varchar(255),
-  group_name                varchar(255),
-  constraint pk_task primary key (id))
+  room                      varchar(255))
 ;
-
-create sequence task_seq;
 
 
 
@@ -26,6 +22,4 @@ SET REFERENTIAL_INTEGRITY FALSE;
 drop table if exists task;
 
 SET REFERENTIAL_INTEGRITY TRUE;
-
-drop sequence if exists task_seq;
 

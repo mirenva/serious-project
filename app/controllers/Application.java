@@ -32,7 +32,7 @@ public class Application extends Controller {
   
   public static Result tasks() {
     return ok(
-      views.html.index.render(Task.all(),taskForm)
+      views.html.index.render(Task.all())
     );
   }
 
@@ -146,7 +146,7 @@ public class Application extends Controller {
         .ilike("room", "%" + requestData.get("room") + "%")
     .findList();
     return ok(
-            views.html.index.render(taskList,requestData)
+            views.html.index.render(taskList)
     );
   }
   

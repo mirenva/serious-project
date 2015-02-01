@@ -1,12 +1,12 @@
-@(tasks: List[Task], taskForm: Form[Task])
+@(tasks: List[Task])
 
 @import helper._
 @import helpers._
 
 <HTML>
 
-@main("Contacts") {
-	@if(tasks.size()>0) {
+@main("Schedule") {
+
 		<table class="table table-striped" width="700px">
 			<tr>
 				<td width="100px">Номер группы</td>
@@ -27,21 +27,31 @@
 				</tr>
 			}
 		</table>
-	}
 
 	
     <h2>Поиск:</h2>
     
     @form(routes.Application.findTasks()) {
-		@helpInput(taskForm("groupNumber"), "Номер группы", 'type->"text")
-		@helpInput(taskForm("day"), "День недели", 'type->"text")
-		@helpInput(taskForm("hours"), "Время занятия", 'type->"text")
-		@helpInput(taskForm("lection"), "Название предмета", 'type->"text")
-		@helpInput(taskForm("teacher"), "Фамилия преподавателя", 'type->"text")
-		@helpInput(taskForm("room"), "Номер аудитории", 'type->"text")
-
-        @helpBtn("Найти")
-        
+        <div class="col-xs-2">
+			<input type=text class="form-control" name="groupNumber" placeholder="Номер группы"/>
+		</div>
+		<div class="col-xs-2">
+			<input type=text class="form-control" name="day" placeholder="День недели"/>
+		</div>
+		<div class="col-xs-2">
+			<input type=text class="form-control" name="hours" placeholder="Время занятия"/>
+		</div>
+		<div class="col-xs-2">
+			<input type=text class="form-control" name="lection" placeholder="Название предмета"/>
+		</div>
+		<div class="col-xs-2">
+			<input type=text class="form-control" name="teacher" placeholder="ФИО преподавателя"/>
+		</div>
+		<div class="col-xs-2">
+			<input type=text class="form-control" name="room" placeholder="Номер аудитории"/>
+		</div>
+		<br><br>
+        <div class="col-xs-2"><input type="submit" class="btn btn-default" value="Найти"></div>
     }
     
 }
